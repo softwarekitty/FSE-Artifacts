@@ -1,0 +1,5 @@
+inputPath = file.path(getwd(),"M0R0V0_CC_SEQ_M0R0V1_CC_SNG.tsv")
+tbl = read.table(inputPath,TRUE)
+results = wilcox.test(tbl[,1],tbl[,2])
+outputPath = file.path(getwd(),"output","example_wilcox_output.txt")
+capture.output(results,file=outputPath)

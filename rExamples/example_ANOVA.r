@@ -1,0 +1,6 @@
+inputPath = file.path(getwd(),"M0.csv")
+tbl = read.table(inputPath,TRUE,",")
+test_output = aov(accuracy~regex*refactoring,data=tbl)
+results=summary(test_output)
+outputPath = file.path(getwd(),"output","example_ANOVA_output.txt")
+capture.output(results,file=outputPath)

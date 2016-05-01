@@ -1,0 +1,5 @@
+inputPath = file.path(getwd(),"M3R0V0_OCTRNG_M3R0V1_CCC_M3R0V2_HEXRNG.tsv")
+tbl = read.table(inputPath,TRUE,"\t")
+results = kruskal.test(value ~ code, data=tbl)
+outputPath = file.path(getwd(),"output","example_kruskal_output.txt")
+capture.output(results,file=outputPath)
