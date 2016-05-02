@@ -4,14 +4,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import main.core.features.FeatureCount;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class T1_Filter extends AbstractLITRequiredFilter{
 	private static final Pattern HEX_OR_OCTAL = Pattern.compile("(\\\\x[a-f0-9A-F]{2})|((\\\\0\\d*)|(\\\\\\d{3}))");
 
 	
 	public T1_Filter(){
-		super(ModelNames.T1,"no HEX, OCT or char-class-wrapped literals");
+		super(Model.T1,"no HEX, OCT or char-class-wrapped literals");
 	}
 
 	@Override

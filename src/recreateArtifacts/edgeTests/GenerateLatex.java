@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import main.core.edges.AnswerColumn;
 import main.io.IOUtil;
-import recreateArtifacts.nodeFilter.Composer;
 
 
 public class GenerateLatex {	

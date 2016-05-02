@@ -7,14 +7,14 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class S3_Filter extends AbstractFilter {
 
 	private static final Pattern S3_CurlySameRepetition = Pattern.compile("\\{(\\d+),\\1\\}");
 
 	public S3_Filter() {
-		super(ModelNames.S3, "curly brace repetition like \\{M,M\\}");
+		super(Model.S3, "curly brace repetition like \\{M,M\\}");
 	}
 
 	@Override

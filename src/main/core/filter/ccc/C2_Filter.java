@@ -7,7 +7,7 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class C2_Filter extends AbstractFilter {
 
@@ -15,7 +15,7 @@ public class C2_Filter extends AbstractFilter {
 			.compile("CHARACTER_CLASS•DOWN•(((\\\\0x..)|.)•)+UP•");
 
 	public C2_Filter() {
-		super(ModelNames.C2, "char class explicitly listing all chars");
+		super(Model.C2, "char class explicitly listing all chars");
 	}
 
 	@Override

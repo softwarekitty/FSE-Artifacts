@@ -8,7 +8,6 @@ import java.util.List;
 import main.core.edges.AnswerColumn;
 import main.core.edges.WilcoxOutput;
 import main.io.IOUtil;
-import recreateArtifacts.nodeFilter.Composer;
 
 
 public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {

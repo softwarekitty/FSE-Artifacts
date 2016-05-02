@@ -7,7 +7,7 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class C1_Filter extends AbstractFilter {
 
@@ -15,7 +15,7 @@ public class C1_Filter extends AbstractFilter {
 			"CHARACTER_CLASS•DOWN•(((.|\\\\0x..)|(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W))•)*(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP•)(((.|\\\\0x..)|(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W)|(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP))•)*UP•");
 
 	public C1_Filter() {
-		super(ModelNames.C1, "char class using ranges");
+		super(Model.C1, "char class using ranges");
 	}
 
 	@Override

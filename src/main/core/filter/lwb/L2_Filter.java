@@ -4,12 +4,12 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFeatureFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class L2_Filter extends AbstractFeatureFilter {
 
 	public L2_Filter() {
-		super(ModelNames.L2, "zero-or-more repetition using kleene star");
+		super(Model.L2, "zero-or-more repetition using kleene star");
 	}
 
 	@Override

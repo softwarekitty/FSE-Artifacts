@@ -4,12 +4,12 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFeatureFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class C3_Filter extends AbstractFeatureFilter {
 
 	public C3_Filter() {
-		super(ModelNames.C3, "any negated char class");
+		super(Model.C3, "any negated char class");
 	}
 
 	@Override

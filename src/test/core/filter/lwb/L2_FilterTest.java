@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 import main.core.filter.lwb.L2_Filter;
 
 public final class L2_FilterTest {
@@ -21,7 +21,7 @@ public final class L2_FilterTest {
 
 	@Test
 	public void test_getName() {
-		assertEquals(filter.getName(), ModelNames.L2);
+		assertEquals(filter.getName(), Model.L2);
 	}
 
 	@Test

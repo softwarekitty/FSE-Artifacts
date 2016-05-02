@@ -7,7 +7,7 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class D3_Filter extends AbstractFilter {
 
@@ -18,7 +18,7 @@ public class D3_Filter extends AbstractFilter {
 	private static final Pattern D3_OR = Pattern.compile("(?<=[|])([^ \\\\]+)\\1+|([^ \\\\]+)\\1+(?=[|])");
 
 	public D3_Filter() {
-		super(ModelNames.D3, "repetition expressed using an OR");
+		super(Model.D3, "repetition expressed using an OR");
 	}
 
 	@Override

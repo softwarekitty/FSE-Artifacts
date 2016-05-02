@@ -7,7 +7,7 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class C5_Filter extends AbstractFilter {
 
@@ -15,7 +15,7 @@ public class C5_Filter extends AbstractFilter {
 			"OR•DOWN•(ALTERNATIVE•DOWN•ELEMENT•DOWN•(.|\\\\0x..|\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W|ANY|(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP•))•UP•UP•)+UP•");
 
 	public C5_Filter() {
-		super(ModelNames.C5, "an OR of length-one sub-patterns");
+		super(Model.C5, "an OR of length-one sub-patterns");
 	}
 
 	@Override

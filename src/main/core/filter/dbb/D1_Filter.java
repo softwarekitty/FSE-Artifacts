@@ -7,12 +7,12 @@ import main.core.features.FeatureCount;
 import main.core.features.FeatureCountFactory;
 import main.core.features.FeatureDictionary;
 import main.core.filter.AbstractFilter;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class D1_Filter extends AbstractFilter{
 	
 	public D1_Filter(){
-		super(ModelNames.D1,"curly brace repetition like \\{M,N\\} with M<N");
+		super(Model.D1,"curly brace repetition like \\{M,N\\} with M<N");
 	}	
 
 	@Override

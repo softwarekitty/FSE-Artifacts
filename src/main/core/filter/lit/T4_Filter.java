@@ -4,14 +4,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import main.core.features.FeatureCount;
-import main.core.filter.ModelNames;
+import main.core.filter.Model;
 
 public class T4_Filter extends AbstractLITRequiredFilter{
 	private static final Pattern T4_OCT = Pattern.compile("((\\\\0\\d*)|(\\\\\\d{3}))");
 
 	
 	public T4_Filter(){
-		super(ModelNames.T4,"has OCT literal like \\verb!\\0177!");
+		super(Model.T4,"has OCT literal like \\verb!\\0177!");
 	}
 
 	@Override
