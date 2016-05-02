@@ -15,7 +15,7 @@ public class C1_Filter extends AbstractFilter {
 			"CHARACTER_CLASS•DOWN•(((.|\\\\0x..)|(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W))•)*(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP•)(((.|\\\\0x..)|(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W)|(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP))•)*UP•");
 
 	public C1_Filter() {
-		super(Model.C1, "char class using ranges");
+		super(Model.C1, "char class using ranges","^[1-9][0-9]*$");
 	}
 
 	@Override

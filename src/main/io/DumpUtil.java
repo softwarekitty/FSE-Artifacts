@@ -13,6 +13,18 @@ import main.core.RegexProjectSet;
  */
 public class DumpUtil {
 	
+	public static String verbatimWrap(String rawPattern) {
+		char[] charsToUse = { '!', '@', '|', ':' };
+
+		for (int i = 0; i < charsToUse.length; i++) {
+			char c = charsToUse[i];
+			if (rawPattern.indexOf(c) == -1) {
+				return "\\cverb" + c + rawPattern + c;
+			}
+		}
+		return "\\cverb•" + rawPattern + "•";
+	}
+	
 	public static String projectCSV(RegexProjectSet regex){
 		StringBuilder sb = new StringBuilder();
 		TreeSet<Integer> projectIDSet= regex.getProjectIDSet();

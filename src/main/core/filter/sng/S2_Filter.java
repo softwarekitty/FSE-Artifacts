@@ -14,7 +14,7 @@ public class S2_Filter extends AbstractFilter {
 	private static final Pattern S2_repeatingElement = Pattern.compile("(ELEMENT•[^ ]+)\\1");
 
 	public S2_Filter() {
-		super(Model.S2, "explicit sequential repetition");
+		super(Model.S2, "explicit sequential repetition","ff:ff:ff:ff:ff:ff");
 	}
 
 	// an old attempt replaced repeating chars, but this was not entirely sound

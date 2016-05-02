@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class L3_Filter extends AbstractFeatureFilter {
 
 	public L3_Filter() {
-		super(Model.L3, "one-or-more repetition using plus");
+		super(Model.L3, "one-or-more repetition using plus", "[A-Z][a-z]+");
 	}
 
 	@Override

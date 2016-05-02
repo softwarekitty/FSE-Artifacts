@@ -11,7 +11,7 @@ public class T4_Filter extends AbstractLITRequiredFilter{
 
 	
 	public T4_Filter(){
-		super(Model.T4,"has OCT literal like \\verb!\\0177!");
+		super(Model.T4,"has OCT literal like \\verb!\\0177!", "[\\041-\\176]+:$");
 	}
 
 	@Override

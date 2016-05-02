@@ -7,8 +7,8 @@ import main.core.filter.AbstractFilter;
 
 public abstract class AbstractLITRequiredFilter extends AbstractFilter {
 
-	public AbstractLITRequiredFilter(String name, String description) {
-		super(name,description);
+	public AbstractLITRequiredFilter(String name, String description, String example) {
+		super(name,description, example);
 	}
 
 	public abstract boolean accepts(String rawPattern, FeatureCount featureCount);

@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class D2_Filter extends AbstractFeatureFilter {
 
 	public D2_Filter() {
-		super(Model.D2, "zero-or-one repetition using question mark");
+		super(Model.D2, "zero-or-one repetition using question mark", "^http(s)?://");
 	}
 
 	@Override

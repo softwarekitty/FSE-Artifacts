@@ -9,11 +9,12 @@ public final class ConcreteAbstractLITRequiredFilterTest {
     private static ConcreteAbstractLITRequiredFilter filter;
 	private static String ANY_NAME = "anyName";
 	private static String ANY_DESCRIPTION = "anyDescription";
+	private static String ANY_EXAMPLE = "anyExample";
 
 
     @Before
     public void setup(){
-        filter = new ConcreteAbstractLITRequiredFilter(ANY_NAME,ANY_DESCRIPTION);
+        filter = new ConcreteAbstractLITRequiredFilter(ANY_NAME,ANY_DESCRIPTION, ANY_EXAMPLE);
     }
     
 	@Test

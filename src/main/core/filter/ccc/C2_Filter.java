@@ -15,7 +15,7 @@ public class C2_Filter extends AbstractFilter {
 			.compile("CHARACTER_CLASS•DOWN•(((\\\\0x..)|.)•)+UP•");
 
 	public C2_Filter() {
-		super(Model.C2, "char class explicitly listing all chars");
+		super(Model.C2, "char class explicitly listing all chars", "[aeiouy]");
 	}
 
 	@Override

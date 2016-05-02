@@ -19,10 +19,12 @@ public abstract class AbstractFilter {
 
 	private final String name;
 	private final String description;
+	private final String example;
 
-	public AbstractFilter(String name, String description) {
+	public AbstractFilter(String name, String description, String example) {
 		this.name = name;
 		this.description = description;
+		this.example = example;
 	}
 
 	public String getName() {
@@ -31,6 +33,10 @@ public abstract class AbstractFilter {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getExample() {
+		return example;
 	}
 
 	public boolean accepts(RegexProjectSet regex){

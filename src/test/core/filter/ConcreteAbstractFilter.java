@@ -5,8 +5,8 @@ import main.core.filter.AbstractFilter;
 
 public class ConcreteAbstractFilter extends AbstractFilter{
 
-	public ConcreteAbstractFilter(String name, String description) {
-		super(name,description);
+	public ConcreteAbstractFilter(String name, String description, String example) {
+		super(name,description,example);
 	}
 
 	public String exposeGetTokenStream(String rawString) {

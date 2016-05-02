@@ -15,7 +15,7 @@ public class C4_Filter extends AbstractFilter {
 			"CHARACTER_CLASS•DOWN•(((.|\\\\0x..)|(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP))•)*(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W)•(((.|\\\\0x..)|(\\\\d|\\\\D|\\\\s|\\\\S|\\\\w|\\\\W)|(RANGE•DOWN•(.|\\\\0x..)•(.|\\\\0x..)•UP))•)*UP•");
 
 	public C4_Filter() {
-		super(Model.C4, "char class using defaults");
+		super(Model.C4, "char class using defaults", "[-+\\d.]");
 	}
 
 	@Override

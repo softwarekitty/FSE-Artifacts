@@ -10,7 +10,7 @@ public class T2_Filter extends AbstractLITRequiredFilter {
 	private static final Pattern T2_HEX = Pattern.compile("\\\\x[a-f0-9A-F]{2}");
 
 	public T2_Filter() {
-		super(Model.T2, "has HEX literal like \\verb!\\xF5!");
+		super(Model.T2, "has HEX literal like \\verb!\\xF5!", "[\\x80-\\xff]");
 	}
 
 	@Override

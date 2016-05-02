@@ -16,10 +16,11 @@ public final class ConcreteAbstractFilterTest {
 	private static ConcreteAbstractFilter filter;
 	private static String ANY_NAME = "anyName";
 	private static String ANY_DESCRIPTION = "anyDescription";
+	private static String ANY_EXAMPLE = "anyExample";
 
 	@Before
 	public void setup() {
-		filter = new ConcreteAbstractFilter(ANY_NAME, ANY_DESCRIPTION);
+		filter = new ConcreteAbstractFilter(ANY_NAME, ANY_DESCRIPTION, ANY_EXAMPLE);
 	}
 
 	@Test
@@ -28,8 +29,13 @@ public final class ConcreteAbstractFilterTest {
 	}
 
 	@Test
-	public void test_descriptionNotNull() {
+	public void test_description() {
 		assertEquals(filter.getDescription(), ANY_DESCRIPTION);
+	}
+	
+	@Test
+	public void test_example() {
+		assertEquals(filter.getExample(), ANY_EXAMPLE);
 	}
 
 	@Test

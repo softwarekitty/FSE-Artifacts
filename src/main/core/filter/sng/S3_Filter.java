@@ -14,7 +14,7 @@ public class S3_Filter extends AbstractFilter {
 	private static final Pattern S3_CurlySameRepetition = Pattern.compile("\\{(\\d+),\\1\\}");
 
 	public S3_Filter() {
-		super(Model.S3, "curly brace repetition like \\{M,M\\}");
+		super(Model.S3, "curly brace repetition like \\{M,M\\}","U[\\dA-F]{5,5}");
 	}
 
 	@Override

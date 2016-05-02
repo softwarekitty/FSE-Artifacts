@@ -7,10 +7,10 @@ import main.core.features.FeatureCount;
 import main.core.filter.Model;
 
 public class T3_Filter extends AbstractLITRequiredFilter {
-	public static final Pattern CCC_WRAPPED_CHAR = Pattern.compile("(?<=\\[).(?=\\])");
+	public static final Pattern CCC_WRAPPED_CHAR = Pattern.compile("(?<=\\[)[^\\\\](?=\\])");
 
 	public T3_Filter() {
-		super(Model.T3, "has char-class-wrapped literals like [\\$]");
+		super(Model.T3, "has char-class-wrapped literals like [\\$]", "[$][{]\\d+:([^}]+)[}]");
 	}
 
 	@Override

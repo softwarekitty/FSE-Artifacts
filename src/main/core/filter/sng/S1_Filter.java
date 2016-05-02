@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class S1_Filter extends AbstractFeatureFilter{
 	
 	public S1_Filter(){
-		super(Model.S1,"curly brace repetition like \\{M\\}");
+		super(Model.S1,"curly brace repetition like \\{M\\}", "^[a-f0-9]{40}$");
 	}
 	
 	public FeatureCount requiredFeatures() {

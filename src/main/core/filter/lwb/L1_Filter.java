@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class L1_Filter extends AbstractFeatureFilter{
 
 	public L1_Filter() {
-		super(Model.L1, "curly brace repetition like \\{M,\\}");
+		super(Model.L1, "curly brace repetition like \\{M,\\}", "(DN)[0-9]{4,}");
 	}
 
 	@Override

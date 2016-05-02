@@ -4,8 +4,8 @@ import main.core.features.FeatureCount;
 
 public abstract class AbstractFeatureFilter extends AbstractFilter {
 
-	public AbstractFeatureFilter(String name, String description) {
-		super(name, description);
+	public AbstractFeatureFilter(String name, String description, String example) {
+		super(name, description, example);
 	}
 
 	@Override

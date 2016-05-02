@@ -39,11 +39,11 @@ public class PathUtil {
 		return "/src/recreateArtifacts/";
 	}
 
-	private static String pathToManuallyReviewedNodes(){
+	public static String pathToManuallyReviewedNodes(){
 		return homePath + "/artifacts/manuallyReviewedNodes/";
 	}
 
-	private static String pathToComprehensionData(){
+	public static String pathToComprehensionData(){
 		return homePath + "/artifacts/comprehensionData/";
 	}
 

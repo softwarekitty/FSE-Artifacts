@@ -11,7 +11,7 @@ public class T1_Filter extends AbstractLITRequiredFilter{
 
 	
 	public T1_Filter(){
-		super(Model.T1,"no HEX, OCT or char-class-wrapped literals");
+		super(Model.T1,"no HEX, OCT or char-class-wrapped literals", "get_tag");
 	}
 
 	@Override

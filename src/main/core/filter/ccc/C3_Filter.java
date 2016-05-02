@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class C3_Filter extends AbstractFeatureFilter {
 
 	public C3_Filter() {
-		super(Model.C3, "any negated char class");
+		super(Model.C3, "any negated char class", "[^A-Za-z0-9.]+");
 	}
 
 	@Override

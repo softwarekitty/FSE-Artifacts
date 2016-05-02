@@ -9,7 +9,7 @@ import main.core.filter.Model;
 public class L2_Filter extends AbstractFeatureFilter {
 
 	public L2_Filter() {
-		super(Model.L2, "zero-or-more repetition using kleene star");
+		super(Model.L2, "zero-or-more repetition using kleene star", "\\s*(#.*)?$");
 	}
 
 	@Override
