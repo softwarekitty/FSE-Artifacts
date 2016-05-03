@@ -1,17 +1,8 @@
-#Info About Mined Projects
+#Finding significance of understandability differences
 
-######Input: contents of merged_report.db (an SQLite3 database)
+######Input: contents of `comprehensionData`
 
-######Output: *projectInfo.tsv*
+######Output: *testedEdges.tex*
 
 ##Program Summary
-To aide the validation of the mining technique, information about the 1645 projects containing regexes that provided all the data for analysis is extracted from the database by this program.  The program queries the database and obtains the last sha seen (the current master at the time of mining) from the *sourceJSON* field for each source.
-
-#####Columns of *projectInfo.tsv*:
-
-- internal ID (useful for matching up patterns in other files to their project IDs)
-- clone url (useful for cloning the project for study)
-- last commit sha (necessary because reproducing the results would be sensitive to new commits)
-- the GitHub repoID, which may be used in their API for whatever purpose.
-
-This is not a result of the paper, but information about the sources of data for the paper was requested by reviewers, so this utility was created to make extracting that data easier.
+Reads the matching input data from *pairs_from_2.csv* and *pairs_from_3.csv*, and the composition input data from *RenamingRegexes.tsv* and *compositionAnswers.tsv*.  Then read in what regexes are associated with what edges from *EXP_EDG_LST.tsv*.  The data for each edge is grouped and a wilcox test is performed using R to find a p-value.  The edges are sorted by smallest of either p-value, and all this is used to create the table.
