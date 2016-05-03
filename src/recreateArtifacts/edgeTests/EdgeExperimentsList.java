@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import main.core.edges.AnswerColumn;
-import main.core.edges.WilcoxOutput;
-import main.io.IOUtil;
+import javax.script.ScriptException;
 
+import main.io.DumpUtil;
+import recreateArtifacts.edgeTests.renjin.WilcoxTest;
 
 public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
-//	private static File scriptTempFile = new File(IOUtil.dataPath + IOUtil.TMP +
-//		IOUtil.R_SCRIPTNAME);
-	private static File scriptTempFile = null;
 
 	private final String[] colNames;
 	private final double matchingP;
@@ -24,14 +21,18 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 	private static DecimalFormat df3 = new DecimalFormat("0.00");
 	private static DecimalFormat i2 = new DecimalFormat("##");
 
-	public EdgeExperimentsList(String edgeIndex, String edgeDescription,
-			List<ExperimentPair> experiments) throws IOException,
-			InterruptedException {
+	public EdgeExperimentsList(String edgeIndex, String edgeDescription, List<ExperimentPair> experiments) throws ScriptException{
 		this.edgeIndex = edgeIndex;
 		colNames = edgeDescription.split("->");
 		this.experiments = experiments;
 		this.matchingP = getPValue(true);
 		this.composingP = getPValue(false);
+	}
+
+	private double getPValue(boolean b) throws ScriptException {
+		String[] inputs = getWilcoxInputs(b);
+		WilcoxTest wt = new WilcoxTest(inputs[0],inputs[1]);
+		return wt.getpValue();
 	}
 
 	public String getEdgeIndex() {
@@ -42,35 +43,15 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		return experiments;
 	}
 
-	public String getPFilename(boolean isMatchingPValue) {
-		String suffix = isMatchingPValue ? "_match" : "_compose";
-		return edgeIndex + suffix;
-	}
+	public String[] getWilcoxInputs(boolean isMatching) {
+		StringBuilder sb0 = new StringBuilder();
+		StringBuilder sb1 = new StringBuilder();
+		sb0.append("v0=c(");
+		sb1.append("v1=c(");
 
-	public double getPValue(boolean isMatchingPValue) throws IOException,
-			InterruptedException {
-		String endFilename = getPFilename(isMatchingPValue);
-
-//		File RinputFile = new File(IOUtil.dataPath + IOUtil.IN + IOUtil.E_PATH +
-//			endFilename + ".tsv");
-//		File RoutFile = new File(IOUtil.dataPath + IOUtil.OUT + IOUtil.E_PATH +
-//			endFilename + ".Rout");
-		File RinputFile = null;
-		File RoutFile = null;
-		IOUtil.createAndWrite(RinputFile, getWilcoxInputContent(isMatchingPValue));
-		String scriptContent = wrapTestIO(RinputFile.getAbsolutePath(), getWilcoxTest(), RoutFile.getAbsolutePath(), "\\t");
-		writeROutput(scriptContent, scriptTempFile);
-		WilcoxOutput wo = new WilcoxOutput(IOUtil.readLines(RoutFile.getAbsolutePath()), endFilename);
-		return wo.getPValue();
-	}
-
-	public String getWilcoxInputContent(boolean isMatching) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(colNames[0] + "\t" + colNames[1] + "\n");
-
-		for (ExperimentPair ep : experiments) {
-			AnswerColumn[] acs = isMatching ? ep.getMatchingColumns()
-					: ep.getComposingColumns();
+		for (int i=0;i<experiments.size();i++) {
+			ExperimentPair ep = experiments.get(i);
+			AnswerColumn[] acs = isMatching ? ep.getMatchingColumns() : ep.getComposingColumns();
 			AnswerColumn leftAc = acs[0];
 			AnswerColumn rightAc = acs[1];
 			// should never happen, because we include NAN inputs here, so all
@@ -81,31 +62,29 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 			Double[] leftValues = leftAc.getValues();
 			Double[] rightValues = rightAc.getValues();
 			for (int k = 0; k < leftValues.length; k++) {
-				sb.append(leftValues[k] + "\t" + rightValues[k] + "\n");
+				sb0.append(leftValues[k]);
+				sb1.append(rightValues[k]);
+				if(k!=leftValues.length-1 || i!=experiments.size()-1){
+					sb0.append(",");
+					sb1.append(",");
+				}
 			}
 		}
-		return sb.toString();
+		String[] inputs = new String[2];
+		inputs[0] = sb0.toString() + ")";
+		inputs[1] = sb1.toString() + ")";
+		return inputs;
 	}
-
-	public double getComposingPValue() {
-		return 0.0;
-	}
-
-	@Override
-	public String toString() {
-		return "EdgeExperimentsList [edgeIndex=" + edgeIndex +
-			", experiments=" + experiments + "]";
-	}
+	
+	///////////////latex//////////////////
 
 	public String getLatexRow(int edgeNumber) throws IOException, InterruptedException {
 		String end = "\\\\\n";
-		return "E"+ edgeNumber + between + colNames[0] + " -- " + colNames[1] +
-			between + experiments.size() + between + getNumberSectionOfLatex() +
-			end;
+		return "E" + edgeNumber + between + colNames[0] + " -- " + colNames[1] + between + experiments.size() + between
+				+ getNumberSectionOfLatex() + end;
 	}
 
-	private String getNumberSectionOfLatex() throws IOException,
-			InterruptedException {
+	private String getNumberSectionOfLatex() throws IOException, InterruptedException {
 		double[] numbers = new double[4];
 		double counter = 0;
 		for (ExperimentPair ep : experiments) {
@@ -118,82 +97,45 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		for (int i = 0; i < 4; i++) {
 			numbers[i] = numbers[i] / counter;
 		}
-		String matchP = Composer.formatPValue(matchingP);
-		String compP = Composer.formatPValue(composingP);
+		String matchP = DumpUtil.formatPValue(matchingP);
+		String compP = DumpUtil.formatPValue(composingP);
 		boolean shouldBoldMatch = false;
 		boolean shouldBoldComp = false;
-		
-		if(matchingP<0.1 || composingP<0.1){
-			if(matchingP<composingP){
+
+		if (matchingP < 0.1 || composingP < 0.1) {
+			if (matchingP < composingP) {
 				shouldBoldMatch = true;
-			}else if(composingP<matchingP){
+			} else if (composingP < matchingP) {
 				shouldBoldComp = true;
 			}
 		}
-		matchP = shouldBoldMatch? "\\textbf{"+matchP +"}" : matchP;
-		compP = shouldBoldComp? "\\textbf{"+compP +"}" : compP;
-		
+		matchP = shouldBoldMatch ? "\\textbf{" + matchP + "}" : matchP;
+		compP = shouldBoldComp ? "\\textbf{" + compP + "}" : compP;
 
-//		return df3.format(numbers[0]) + between + df3.format(numbers[1]) +
-//		between + matchP + between +
-//		df3.format(numbers[2]) + between + df3.format(numbers[3]) +
-//		between + compP;
-		
-//		return Composer.percentify(numbers[0],1) + between + Composer.percentify(numbers[1],1) +
-//			between + matchP + between +
-//			Composer.percentify(numbers[2],1) + between + Composer.percentify(numbers[3],1) +
-//			between + compP;
-		
-		return i2.format(100*numbers[0]) + "\\%" + between + i2.format(100*numbers[1]) +"\\%" + 
-		between + matchP + between +
-		i2.format(100*numbers[2]) + "\\%" + between + i2.format(100*numbers[3]) +"\\%" + 
-		between + compP;
+		return df3.format(numbers[0]) + between + df3.format(numbers[1]) + between + matchP + between
+				+ df3.format(numbers[2]) + between + df3.format(numbers[3]) + between + compP;
 	}
-
-	private static void writeROutput(String scriptContent, File scriptTempFile)
-			throws IOException, InterruptedException {
-		// write over the temp R input script with given content
-		IOUtil.createAndWrite(scriptTempFile, scriptContent);
-
-		// run the R script
-		Process p = Runtime.getRuntime().exec("/usr/local/bin/R CMD BATCH " +
-			scriptTempFile.getAbsolutePath());
-
-		// add + " /dev/null" to the end to silence output
-		p.waitFor();
-	}
-
-	private static String wrapTestIO(String inPath, String testContent,
-			String outPath, String sep) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("tbl = read.table(\"" + inPath + "\",TRUE,\"" + sep + "\")\n");
-		sb.append(testContent);
-		sb.append("capture.output(results,file=\"" + outPath + "\")");
-		return sb.toString();
-	}
-
-	private static String getWilcoxTest() {
-		return "results = wilcox.test(tbl[,1],tbl[,2])\n";
-	}
+	
+	/////////////////compare///////////////
 
 	// first by matchingP, then by composingP then by experiments.size()
 	@Override
 	public int compareTo(EdgeExperimentsList o) {
-		if (this.matchingP == o.matchingP  && this.composingP == o.composingP) {
+		if (this.matchingP == o.matchingP && this.composingP == o.composingP) {
 			return 0;
-		} else if(this.matchingP == o.matchingP){
-			if(this.composingP < o.composingP){
+		} else if (this.matchingP == o.matchingP) {
+			if (this.composingP < o.composingP) {
 				return -1;
-			}else{
+			} else {
 				return 1;
 			}
-		}else if(this.composingP == o.composingP){
-			if(this.matchingP < o.matchingP){
+		} else if (this.composingP == o.composingP) {
+			if (this.matchingP < o.matchingP) {
 				return -1;
-			}else{
+			} else {
 				return 1;
 			}
-		}else{
+		} else {
 			return compareMins(o);
 		}
 	}
@@ -217,5 +159,10 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		} else {
 			return 1;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "EdgeExperimentsList [edgeIndex=" + edgeIndex + ", experiments=" + experiments + "]";
 	}
 }

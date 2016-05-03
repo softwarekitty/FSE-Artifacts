@@ -2,6 +2,8 @@ package main.core.edges;
 
 import java.util.List;
 
+import recreateArtifacts.edgeTests.AnswerColumn;
+
 public class KruskalFormatter implements RFormattable {
 
 	public String formatData(List<AnswerColumn> allColumns, int firstInclusive,

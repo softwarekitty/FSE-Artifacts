@@ -3,6 +3,8 @@ package main.core.edges;
 import java.util.List;
 import java.util.TreeSet;
 
+import recreateArtifacts.edgeTests.AnswerColumn;
+
 public class KruskalOutput {
 	private final Double chi_value;
 	private final Double df_value;

@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import main.core.edges.AnswerColumn;
-
 
 public class ExperimentPair {
 	private final AnswerColumn[] matchingColumns;
@@ -74,10 +72,10 @@ public class ExperimentPair {
 	}
 	
 	public double getComposingAvgLeft(){
-		return composingColumns[0].getX()/(composingColumns[0].getCount()+0.0);
+		return composingColumns[0].getNGreaterThanZero()/(composingColumns[0].getNExistingValues()+0.0);
 	}
 	public double getComposingAvgRight(){
-		return composingColumns[1].getX()/(composingColumns[1].getCount()+0.0);
+		return composingColumns[1].getNGreaterThanZero()/(composingColumns[1].getNExistingValues()+0.0);
 	}
 
 	public AnswerColumn[] getMatchingColumns() {

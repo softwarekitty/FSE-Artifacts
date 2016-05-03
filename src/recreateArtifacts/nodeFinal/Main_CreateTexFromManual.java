@@ -58,7 +58,7 @@ public class Main_CreateTexFromManual {
 		// build the table
 		StringBuilder report = new StringBuilder();
 		Map<String, HashMap<String, AbstractFilter>> filtersMap = Model.getFiltersMaps();
-		report.append(getLatexDocSetup());
+		report.append(DumpUtil.getLatexDocSetup());
 		report.append(tableLatex + topRow);
 		report.append(corpusProjectIDCount);
 		int counter = 0;
@@ -111,28 +111,6 @@ public class Main_CreateTexFromManual {
 		String tableFoot = "\\bottomrule[0.13em]\n\\end{tabular}\n\\end{center}\\end{scriptsize}\\end{table*}\n\\end{document}\n";
 		report.append(tableFoot);
 		IOUtil.createAndWrite(nodeCountFile, report.toString());
-	}
-
-	private static Object getLatexDocSetup() {
-		String docHead = "\\documentclass[12pt]{article}\n"+
-				"\\usepackage{calc}\n"+
-				"\\usepackage{enumitem}\n"+
-				"\\usepackage[pdftex]{graphicx}\n"+
-				"\\usepackage[margin=0.8in]{geometry}\n"+
-				"\\usepackage{balance}\n"+
-				"\\usepackage{multirow}\n"+
-				"\\usepackage{multicol}\n"+
-				"\\RequirePackage{booktabs}\n"+
-				"\\renewcommand*\\cmidrule{\\midrule[0.001em]} % Thin middle lines\n";
-		String cverbSetup = "\\usepackage{fancyvrb,newverbs,color}\n"+
-				"\\definecolor{cverbbg}{gray}{0.93}\n"+
-				"\\definecolor{bverbbg}{gray}{0.975}\n"+
-				"\\definecolor{iverbbg}{gray}{0.96}\n"+
-				"\\newcommand{\\verbatimfont}[1]{\\def\\verbatim@font{#1}}%\n"+
-				"\\newverbcommand{\\cverb}\n"+
-				"{\\setbox\\verbbox\\hbox\\bgroup}\n"+
-				"{\\egroup\\colorbox{cverbbg}{\\box\\verbbox}}\n\\begin{document}\n";
-		return docHead + cverbSetup;
 	}
 
 	private static TreeSet<Integer> aggregateProjectIDs(

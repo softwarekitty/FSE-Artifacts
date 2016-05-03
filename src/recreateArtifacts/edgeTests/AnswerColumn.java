@@ -1,4 +1,4 @@
-package main.core.edges;
+package recreateArtifacts.edgeTests;
 
 import java.util.Arrays;
 
@@ -56,7 +56,7 @@ public class AnswerColumn {
 		return sum/(existingValues.length + 0.0);
 	}
 
-	public int getX() {
+	public int getNGreaterThanZero() {
 		int count = 0;
 		for(double d : existingValues){
 			if(d >0){
@@ -66,7 +66,7 @@ public class AnswerColumn {
 		return count;
 	}
 
-	public int getCount() {
+	public int getNExistingValues() {
 		return existingValues.length;
 	}
 
