@@ -5,77 +5,88 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-
+/**
+ * represents two regexes where the understandability of each was measured, and
+ * they are alternate representations of the same functional regex
+ * 
+ * mostly a pair-pair class for matching and composing AnswerColumns
+ * 
+ * @author cc
+ *
+ */
 public class ExperimentPair {
 	private final AnswerColumn[] matchingColumns;
 	private final AnswerColumn[] composingColumns;
 	private boolean isFrom2;
 	private String fileName;
-	
-	public ExperimentPair(String code0, String code1,List<AnswerColumn> pairsFrom2,List<AnswerColumn> pairsFrom3,List<AnswerColumn> compositionAnswers) throws IOException {
+
+	public ExperimentPair(String code0, String code1, List<AnswerColumn> pairsFrom2, List<AnswerColumn> pairsFrom3,
+			List<AnswerColumn> compositionAnswers) throws IOException {
 		this.matchingColumns = new AnswerColumn[2];
 		this.composingColumns = new AnswerColumn[2];
 		Iterator<AnswerColumn> it2 = pairsFrom2.iterator();
-		while(it2.hasNext()){
-			
+		while (it2.hasNext()) {
+
 			AnswerColumn ac1 = it2.next();
 			AnswerColumn ac2 = it2.next();
-			if(code0.equals(ac1.getRegexCode()) && code1.equals(ac2.getRegexCode())){
+			if (code0.equals(ac1.getRegexCode()) && code1.equals(ac2.getRegexCode())) {
 				isFrom2 = true;
 				matchingColumns[0] = ac1;
 				matchingColumns[1] = ac2;
-				this.fileName = ac1.getRegexCode()+"_"+ac2.getRegexCode();
+				this.fileName = ac1.getRegexCode() + "_" + ac2.getRegexCode();
 				break;
-			}else if(code1.equals(ac1.getRegexCode()) && code0.equals(ac2.getRegexCode())){
+			} else if (code1.equals(ac1.getRegexCode()) && code0.equals(ac2.getRegexCode())) {
 				isFrom2 = true;
 				matchingColumns[0] = ac2;
 				matchingColumns[1] = ac1;
-				this.fileName = ac1.getRegexCode()+"_"+ac2.getRegexCode();
+				this.fileName = ac1.getRegexCode() + "_" + ac2.getRegexCode();
 				break;
 			}
 		}
-		if(!isFrom2){
+		if (!isFrom2) {
 			Iterator<AnswerColumn> it3 = pairsFrom3.iterator();
-			while(it3.hasNext()){
+			while (it3.hasNext()) {
 				AnswerColumn ac1 = it3.next();
 				AnswerColumn ac2 = it3.next();
-				if(code0.equals(ac1.getRegexCode()) && code1.equals(ac2.getRegexCode())){
+				if (code0.equals(ac1.getRegexCode()) && code1.equals(ac2.getRegexCode())) {
 					isFrom2 = false;
 					matchingColumns[0] = ac1;
 					matchingColumns[1] = ac2;
-					this.fileName = ac1.getRegexCode()+"_"+ac2.getRegexCode();
+					this.fileName = ac1.getRegexCode() + "_" + ac2.getRegexCode();
 					break;
-				}else if(code1.equals(ac1.getRegexCode()) && code0.equals(ac2.getRegexCode())){
+				} else if (code1.equals(ac1.getRegexCode()) && code0.equals(ac2.getRegexCode())) {
 					isFrom2 = false;
 					matchingColumns[0] = ac2;
 					matchingColumns[1] = ac1;
-					this.fileName = ac1.getRegexCode()+"_"+ac2.getRegexCode();
+					this.fileName = ac1.getRegexCode() + "_" + ac2.getRegexCode();
 					break;
 				}
 			}
 		}
-		for(AnswerColumn compAC : compositionAnswers){
-			if(matchingColumns[0].getRegexCode().equals(compAC.getRegexCode())){
+		for (AnswerColumn compAC : compositionAnswers) {
+			if (matchingColumns[0].getRegexCode().equals(compAC.getRegexCode())) {
 				composingColumns[0] = compAC;
 			}
-			if(matchingColumns[1].getRegexCode().equals(compAC.getRegexCode())){
+			if (matchingColumns[1].getRegexCode().equals(compAC.getRegexCode())) {
 				composingColumns[1] = compAC;
 			}
 		}
 	}
-	
-	public double getMatchingAvgLeft(){
+
+	public double getMatchingAvgLeft() {
 		return matchingColumns[0].getAvg();
 	}
-	public double getMatchingAvgRight(){
+
+	public double getMatchingAvgRight() {
 		return matchingColumns[1].getAvg();
 	}
-	
-	public double getComposingAvgLeft(){
-		return composingColumns[0].getNGreaterThanZero()/(composingColumns[0].getNExistingValues()+0.0);
+
+	public double getComposingAvgLeft() {
+		return composingColumns[0].getNGreaterThanZero() / (composingColumns[0].getNExistingValues() + 0.0);
 	}
-	public double getComposingAvgRight(){
-		return composingColumns[1].getNGreaterThanZero()/(composingColumns[1].getNExistingValues()+0.0);
+
+	public double getComposingAvgRight() {
+		return composingColumns[1].getNGreaterThanZero() / (composingColumns[1].getNExistingValues() + 0.0);
 	}
 
 	public AnswerColumn[] getMatchingColumns() {
@@ -88,9 +99,7 @@ public class ExperimentPair {
 
 	@Override
 	public String toString() {
-		return "ExperimentPair [matchingColumns=" +
-			Arrays.toString(matchingColumns) + ", composingColumns=" +
-			Arrays.toString(composingColumns) + ", isFrom2=" + isFrom2 +
-			", fileName=" + fileName + "]";
+		return "ExperimentPair [matchingColumns=" + Arrays.toString(matchingColumns) + ", composingColumns="
+				+ Arrays.toString(composingColumns) + ", isFrom2=" + isFrom2 + ", fileName=" + fileName + "]";
 	}
 }

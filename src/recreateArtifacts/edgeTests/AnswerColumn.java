@@ -2,6 +2,12 @@ package recreateArtifacts.edgeTests;
 
 import java.util.Arrays;
 
+/**
+ * essentially a wrapper for Double[], but also handling NAs
+ * 
+ * @author cc
+ *
+ */
 public class AnswerColumn {
 	private final String regexCode;
 	private final Double[] values;
@@ -36,20 +42,12 @@ public class AnswerColumn {
 			Arrays.toString(values) + "]";
 	}
 
-	public int getNRows() {
-		return values.length;
-	}
-
 	public String getRegexCode() {
 		return regexCode;
 	}
 
 	public Double[] getValues() {
 		return values;
-	}
-
-	public double[] getExistingValues() {
-		return existingValues;
 	}
 
 	public double getAvg() {

@@ -1,6 +1,5 @@
 package recreateArtifacts.edgeTests;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -8,8 +7,13 @@ import java.util.List;
 import javax.script.ScriptException;
 
 import main.io.DumpUtil;
-import recreateArtifacts.edgeTests.renjin.WilcoxTest;
 
+/**
+ * represents a list of experiments for a given edge
+ * 
+ * @author cc
+ *
+ */
 public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 
 	private final String[] colNames;
@@ -19,9 +23,10 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 	private final List<ExperimentPair> experiments;
 	private static final String between = " & ";
 	private static DecimalFormat df3 = new DecimalFormat("0.00");
-	private static DecimalFormat i2 = new DecimalFormat("##");
 
-	public EdgeExperimentsList(String edgeIndex, String edgeDescription, List<ExperimentPair> experiments) throws ScriptException{
+	// closely tied to one line of the EXP_EDG_LST file
+	public EdgeExperimentsList(String edgeIndex, String edgeDescription, List<ExperimentPair> experiments)
+			throws ScriptException {
 		this.edgeIndex = edgeIndex;
 		colNames = edgeDescription.split("->");
 		this.experiments = experiments;
@@ -29,9 +34,14 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		this.composingP = getPValue(false);
 	}
 
+	/**
+	 * 
+	 * this is the important method - get the p value for the combined matching
+	 * and composing data
+	 */
 	private double getPValue(boolean b) throws ScriptException {
-		String[] inputs = getWilcoxInputs(b);
-		WilcoxTest wt = new WilcoxTest(inputs[0],inputs[1]);
+		NamedRarray[] namedRarrays = getWilcoxInputs(b);
+		WilcoxTest wt = new WilcoxTest(namedRarrays[0], namedRarrays[1]);
 		return wt.getpValue();
 	}
 
@@ -43,13 +53,20 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		return experiments;
 	}
 
-	public String[] getWilcoxInputs(boolean isMatching) {
-		StringBuilder sb0 = new StringBuilder();
-		StringBuilder sb1 = new StringBuilder();
-		sb0.append("v0=c(");
-		sb1.append("v1=c(");
+	/**
+	 * 
+	 * constructs the named array input for the R script. The name is associated
+	 * with the input to minimize magic strings in the WilcoxTest
+	 */
+	public NamedRarray[] getWilcoxInputs(boolean isMatching) {
+		String name0 = "v0";
+		String name1 = "v1";
+		StringBuilder array0Builder = new StringBuilder();
+		StringBuilder array1Builder = new StringBuilder();
+		array0Builder.append(name0 + "=c(");
+		array1Builder.append(name1 + "=c(");
 
-		for (int i=0;i<experiments.size();i++) {
+		for (int i = 0; i < experiments.size(); i++) {
 			ExperimentPair ep = experiments.get(i);
 			AnswerColumn[] acs = isMatching ? ep.getMatchingColumns() : ep.getComposingColumns();
 			AnswerColumn leftAc = acs[0];
@@ -62,21 +79,21 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 			Double[] leftValues = leftAc.getValues();
 			Double[] rightValues = rightAc.getValues();
 			for (int k = 0; k < leftValues.length; k++) {
-				sb0.append(leftValues[k]);
-				sb1.append(rightValues[k]);
-				if(k!=leftValues.length-1 || i!=experiments.size()-1){
-					sb0.append(",");
-					sb1.append(",");
+				array0Builder.append(leftValues[k]);
+				array1Builder.append(rightValues[k]);
+				if (k != leftValues.length - 1 || i != experiments.size() - 1) {
+					array0Builder.append(",");
+					array1Builder.append(",");
 				}
 			}
 		}
-		String[] inputs = new String[2];
-		inputs[0] = sb0.toString() + ")";
-		inputs[1] = sb1.toString() + ")";
-		return inputs;
+		NamedRarray[] arrays = new NamedRarray[2];
+		arrays[0] = new NamedRarray(name0, array0Builder.toString() + ")");
+		arrays[1] = new NamedRarray(name1, array1Builder.toString() + ")");
+		return arrays;
 	}
-	
-	///////////////latex//////////////////
+
+	/////////////// latex//////////////////
 
 	public String getLatexRow(int edgeNumber) throws IOException, InterruptedException {
 		String end = "\\\\\n";
@@ -115,8 +132,8 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 		return df3.format(numbers[0]) + between + df3.format(numbers[1]) + between + matchP + between
 				+ df3.format(numbers[2]) + between + df3.format(numbers[3]) + between + compP;
 	}
-	
-	/////////////////compare///////////////
+
+	///////////////// compare///////////////
 
 	// first by matchingP, then by composingP then by experiments.size()
 	@Override
@@ -160,7 +177,7 @@ public class EdgeExperimentsList implements Comparable<EdgeExperimentsList> {
 			return 1;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "EdgeExperimentsList [edgeIndex=" + edgeIndex + ", experiments=" + experiments + "]";
